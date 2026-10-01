@@ -1,0 +1,204 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Rodrigo Rego de Lima | Desenvolvedor Web & Engenheiro de Software",
+  description = "Portfólio de Rodrigo Rego de Lima - Desenvolvedor Web especializado em WordPress avançado, Next.js, PHP, JavaScript, SEO Técnico e Core Web Vitals."
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content={description} />
+  <meta name="keywords" content="Rodrigo Rego de Lima, Desenvolvedor Web, WordPress Developer, Next.js, PHP, JavaScript, Core Web Vitals, SEO Técnico, Plugins Customizados, Recife, Paulista PE" />
+  <meta name="author" content="Rodrigo Rego de Lima" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://github.com/sou0" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://github.com/sou0" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Rodrigo Rego de Lima",
+    "jobTitle": "Desenvolvedor Web & Engenheiro de Software",
+    "url": "https://github.com/sou0",
+    "email": "rodrigoregodelima01@gmail.com",
+    "telephone": "+5581981656577",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Paulista",
+      "addressRegion": "PE",
+      "addressCountry": "BR"
+    },
+    "sameAs": [
+      "https://github.com/sou0",
+      "https://wa.me/5581981656577"
+    ],
+    "knowsAbout": [
+      "WordPress",
+      "PHP",
+      "JavaScript",
+      "Next.js",
+      "React",
+      "SEO Técnico",
+      "Core Web Vitals",
+      "Python",
+      "PostgreSQL",
+      "MySQL"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- Ambient Glow Background -->
+  <div class="ambient-glow">
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+    <div class="glow-orb glow-3"></div>
+  </div>
+
+  <slot />
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Global Client Script -->
+  <script>
+    // 1. Theme Management
+    const themeToggle = document.getElementById('theme-toggle');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const currentTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'dark');
+
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    updateThemeIcon(currentTheme);
+
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const activeTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = activeTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+      });
+    }
+
+    function updateThemeIcon(theme: string) {
+      if (!themeToggle) return;
+      const sunIcon = themeToggle.querySelector('.sun-icon') as HTMLElement;
+      const moonIcon = themeToggle.querySelector('.moon-icon') as HTMLElement;
+      if (sunIcon && moonIcon) {
+        if (theme === 'light') {
+          sunIcon.style.display = 'none';
+          moonIcon.style.display = 'block';
+        } else {
+          sunIcon.style.display = 'block';
+          moonIcon.style.display = 'none';
+        }
+      }
+    }
+
+    // 2. Mobile Menu
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const navLinks = document.getElementById('nav-links');
+
+    if (mobileBtn && navLinks) {
+      mobileBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+        });
+      });
+    }
+
+    // 3. Active Nav on Scroll & Back to top
+    const sections = document.querySelectorAll('section[id]');
+    const backToTop = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.pageYOffset;
+      sections.forEach(current => {
+        const sec = current as HTMLElement;
+        const sectionHeight = sec.offsetHeight;
+        const sectionTop = sec.offsetTop - 120;
+        const sectionId = sec.getAttribute('id');
+        const navLink = document.querySelector(`.nav-links a[href*="${sectionId}"]`);
+        if (navLink) {
+          if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+            navLink.classList.add('active');
+          } else {
+            navLink.classList.remove('active');
+          }
+        }
+      });
+
+      if (backToTop) {
+        if (window.scrollY > 400) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible');
+        }
+      }
+    });
+
+    if (backToTop) {
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // 4. Toast notification helper
+    (window as any).showToast = function(msg: string) {
+      let toast = document.getElementById('toast');
+      if (toast) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast?.classList.remove('show');
+        }, 3200);
+      }
+    };
+
+    (window as any).copyToClipboard = function(text: string, label: string) {
+      navigator.clipboard.writeText(text).then(() => {
+        (window as any).showToast(`${label} copiado com sucesso!`);
+      }).catch(() => {
+        (window as any).showToast(`Erro ao copiar: ${text}`);
+      });
+    };
+  </script>
+</body>
+</html>

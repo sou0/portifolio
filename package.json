@@ -1,0 +1,17 @@
+{
+  "name": "rodrigo-rego-portfolio-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-Stack Portfolio: NestJS Backend (TypeScript) + Astro Frontend (TypeScript)",
+  "author": "Rodrigo Rego de Lima",
+  "license": "ISC",
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev": "npm run start:all",
+    "start:all": "bash -c 'trap \"kill 0\" SIGINT SIGTERM EXIT; npm run dev:backend & npm run dev:frontend & wait'",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "build": "npm run build:backend && npm run build:frontend"
+  }
+}

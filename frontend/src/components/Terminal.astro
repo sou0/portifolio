@@ -1,0 +1,151 @@
+---
+---
+<div class="terminal-window">
+  <div class="terminal-header">
+    <div class="terminal-dots">
+      <span class="terminal-dot dot-red"></span>
+      <span class="terminal-dot dot-yellow"></span>
+      <span class="terminal-dot dot-green"></span>
+    </div>
+    <div class="terminal-title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+      bash ~ rodrigo-cli (digite 'help')
+    </div>
+    <div></div>
+  </div>
+  <div class="terminal-body" id="term-body">
+    <div class="term-line">
+      <span class="term-prompt">rodrigo@portfolio:~$</span>
+      <span class="term-cmd">curl -s https://api.rodrigo.dev/perfil</span>
+    </div>
+    <div class="term-output">
+      &#123;<br>
+      &nbsp;&nbsp;<span class="term-key">"nome"</span>: <span class="term-val">"Rodrigo Rego de Lima"</span>,<br>
+      &nbsp;&nbsp;<span class="term-key">"cargo"</span>: <span class="term-val">"Desenvolvedor Web & Engenheiro Full-Stack (NestJS / Astro / WP)"</span>,<br>
+      &nbsp;&nbsp;<span class="term-key">"local"</span>: <span class="term-val">"Paulista, PE - Brasil"</span>,<br>
+      &nbsp;&nbsp;<span class="term-key">"especialidades"</span>: [<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="term-val">"Junior's CMS (Astro SSR + Tauri + Fiscal SEFAZ-PE)"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="term-val">"Plugins WordPress Desacoplados"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="term-val">"NestJS APIs & TypeScript Rigoroso"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="term-val">"SEO Técnico Dinâmico & Core Web Vitals"</span><br>
+      &nbsp;&nbsp;],<br>
+      &nbsp;&nbsp;<span class="term-key">"status"</span>: <span class="term-val">"Ready to deploy"</span><br>
+      &#125;
+    </div>
+    <div class="term-line">
+      <span class="term-prompt">rodrigo@portfolio:~$</span>
+      <span class="term-cmd">echo "Digite 'help' para explorar comandos interativos"</span>
+    </div>
+  </div>
+  <div class="term-input-line" style="padding: 0 20px 16px;">
+    <span class="term-prompt">rodrigo@portfolio:~$</span>
+    <input type="text" id="term-input" class="term-input" placeholder="digite um comando..." autocomplete="off">
+  </div>
+</div>
+
+<script>
+  const termInput = document.getElementById('term-input') as HTMLInputElement;
+  const termBody = document.getElementById('term-body');
+
+  const commands: Record<string, () => string> = {
+    help: () => `
+<div class="term-output">
+  Comandos disponíveis:<br>
+  - <span class="term-cmd">skills</span>: Lista as principais tecnologias e competências<br>
+  - <span class="term-cmd">projects</span>: Exibe os principais repositórios e ferramentas autorais<br>
+  - <span class="term-cmd">contact</span>: Informações diretas de contato<br>
+  - <span class="term-cmd">whoami</span>: Breve biografia sobre Rodrigo<br>
+  - <span class="term-cmd">clear</span>: Limpa o terminal
+</div>`,
+    whoami: () => `
+<div class="term-output">
+  <span class="term-highlight">Rodrigo Rego de Lima</span><br>
+  Desenvolvedor Web & Engenheiro Full-Stack focado em soluções robustas,<br>
+  criador do <span class="term-highlight">Junior's CMS</span>, especialista em ecossistema WordPress desacoplado,<br>
+  Astro, NestJS, SEO Técnico e Core Web Vitals.
+</div>`,
+    skills: () => `
+<div class="term-output">
+  <span class="term-key">Linguagens:</span> TypeScript, PHP, JavaScript (ES6+), Python, SQL<br>
+  <span class="term-key">Frameworks:</span> Astro SSR, NestJS, React.js, Next.js, Tauri<br>
+  <span class="term-key">WordPress:</span> Plugins Customizados, Hooks/Filters, ACF, Cache Bypass<br>
+  <span class="term-key">SEO & Perf:</span> Core Web Vitals (LCP, FID/INP, CLS), Dynamic NoIndex, Schema<br>
+  <span class="term-key">Infra & Fiscal:</span> SEFAZ-PE, PostgreSQL, Docker, WebUSB, Firebase
+</div>`,
+    projects: () => `
+<div class="term-output">
+  1. <span class="term-highlight">[CARRO-CHEFE] Junior's CMS</span> - Suite Omnichannel (Astro SSR + React/Tauri + SEFAZ-PE + PDV).<br>
+  2. <span class="term-highlight">Junior's SEO Plugin</span> (Next.js / React) - Manipulação de SEO e noindex dinâmico.<br>
+  3. <span class="term-highlight">Junior's SEO & Meta CSV Updater</span> (WordPress) - Atualizações em lote com rollback.<br>
+  4. <span class="term-highlight">Junior's Banner Manager</span> (WordPress) - Injeção dinâmica por funil com cache bypass.<br>
+  5. <span class="term-highlight">Odonto Vieira WebApp</span> (Next.js & Firebase) - Alta performance e SEO avançado.
+</div>`,
+    contact: () => `
+<div class="term-output">
+  <span class="term-key">WhatsApp:</span> (81) 98165-6577<br>
+  <span class="term-key">Email:</span> rodrigoregodelima01@gmail.com<br>
+  <span class="term-key">GitHub:</span> github.com/sou0<br>
+  <span class="term-key">Localização:</span> Paulista, PE
+</div>`,
+    clear: () => {
+      if (termBody) {
+        termBody.innerHTML = `
+          <div class="term-line">
+            <span class="term-prompt">rodrigo@portfolio:~$</span>
+            <span class="term-cmd">cat resumo.json</span>
+          </div>
+          <div class="term-output">
+            &#123;<br>
+            &nbsp;&nbsp;<span class="term-key">"nome"</span>: <span class="term-val">"Rodrigo Rego de Lima"</span>,<br>
+            &nbsp;&nbsp;<span class="term-key">"funcao"</span>: <span class="term-val">"Desenvolvedor Web & Engenheiro Full-Stack (NestJS / Astro / WP)"</span>,<br>
+            &nbsp;&nbsp;<span class="term-key">"projetos_destaque"</span>: [<span class="term-val">"Junior's CMS"</span>, <span class="term-val">"Junior's SEO Plugin"</span>, <span class="term-val">"Junior's CSV Updater"</span>],<br>
+            &nbsp;&nbsp;<span class="term-key">"status"</span>: <span class="term-val">"Disponível para novos projetos e desafios"</span><br>
+            &#125;
+          </div>
+        `;
+      }
+      return '';
+    }
+  };
+
+  if (termInput && termBody) {
+    termInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const rawCmd = termInput.value.trim().toLowerCase();
+        if (!rawCmd) return;
+
+        const userLine = document.createElement('div');
+        userLine.className = 'term-line';
+        userLine.innerHTML = `<span class="term-prompt">rodrigo@portfolio:~$</span> <span class="term-cmd">${escapeHtml(termInput.value)}</span>`;
+        termBody.appendChild(userLine);
+
+        if (commands[rawCmd]) {
+          const res = commands[rawCmd]();
+          if (res) {
+            const outDiv = document.createElement('div');
+            outDiv.innerHTML = res;
+            termBody.appendChild(outDiv);
+          }
+        } else {
+          const errDiv = document.createElement('div');
+          errDiv.className = 'term-output';
+          errDiv.innerHTML = `<span style="color: #ef4444;">Comando não reconhecido: "${escapeHtml(rawCmd)}". Digite <span class="term-cmd">help</span> para comandos disponíveis.</span>`;
+          termBody.appendChild(errDiv);
+        }
+
+        termInput.value = '';
+        termBody.scrollTop = termBody.scrollHeight;
+      }
+    });
+  }
+
+  function escapeHtml(text: string) {
+    return text.replace(/[&<>"']/g, m => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    }[m] || m));
+  }
+</script>
